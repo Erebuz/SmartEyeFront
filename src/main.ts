@@ -8,6 +8,8 @@ import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 import { mdi } from "vuetify/iconsets/mdi";
+import { appUseHttp } from "@/plugins/http-common";
+import { appUseAuth } from "@/plugins/auth";
 
 const vuetify = createVuetify({
   components,
@@ -20,4 +22,9 @@ const vuetify = createVuetify({
   },
 });
 
-createApp(App).use(vuetify).use(store).use(router).mount("#app");
+const app = createApp(App);
+
+appUseHttp(app);
+appUseAuth(app);
+
+app.use(vuetify).use(store).use(router).mount("#app");

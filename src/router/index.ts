@@ -7,11 +7,17 @@ const routes: Array<RouteRecordRaw> = [
     path: "/login",
     name: "login",
     component: HomeView,
+    meta: {
+      auth: false,
+    },
   },
   {
     path: "/",
     name: "general",
     component: GeneralView,
+    meta: {
+      auth: true,
+    },
   },
 ];
 
