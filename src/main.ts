@@ -1,30 +1,32 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
+import { createApp } from 'vue'
+import App from './App.vue'
+import { appUseRouter } from './router'
+import { appUseHttp } from '@/plugins/http-common'
+import { appUseAuth } from '@/plugins/auth'
+import store from './store'
+import { mdi } from 'vuetify/iconsets/mdi'
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
 
-import "vuetify/styles";
-import { createVuetify } from "vuetify";
-import * as components from "vuetify/components";
-import * as directives from "vuetify/directives";
-import { mdi } from "vuetify/iconsets/mdi";
-import { appUseHttp } from "@/plugins/http-common";
-import { appUseAuth } from "@/plugins/auth";
+const app = createApp(App)
+appUseRouter(app)
+appUseHttp(app)
+appUseAuth(app)
+app.use(store)
 
 const vuetify = createVuetify({
   components,
   directives,
   icons: {
-    defaultSet: "mdi",
+    defaultSet: 'mdi',
     sets: {
       mdi,
     },
   },
-});
+})
 
-const app = createApp(App);
+app.use(vuetify)
 
-appUseHttp(app);
-appUseAuth(app);
-
-app.use(vuetify).use(store).use(router).mount("#app");
+app.mount('#app')
