@@ -17,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'general',
     component: GeneralView,
     meta: {
-      auth: false,
+      auth: true,
     },
   },
 ]

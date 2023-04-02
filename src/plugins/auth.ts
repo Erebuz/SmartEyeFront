@@ -40,7 +40,7 @@ const auth = createAuth({
       url: '/auth/refresh',
       method: 'POST',
       interval: 20,
-      enabled: true,
+      enabled: false,
       timeout: 2000,
     },
     makeRequest: true,

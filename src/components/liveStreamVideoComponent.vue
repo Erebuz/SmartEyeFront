@@ -12,10 +12,9 @@
 import { VideoJsPlayer, VideoJsPlayerOptions } from 'video.js'
 import { VideoPlayer, VideoPlayerState } from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'
-import { onMounted, reactive, Ref, ref } from 'vue'
+import { onMounted, onUnmounted, reactive, Ref, ref } from 'vue'
 import Hls, { HlsConfig } from 'hls.js'
-import { BASE, STREAM_BASE } from '@/plugins/http-common'
-import { tr } from 'vuetify/locale'
+import { STREAM_BASE } from '@/plugins/http-common'
 
 
 const videoOptions: VideoJsPlayerOptions = reactive({
@@ -61,6 +60,7 @@ function play() {
 
   if (!hls.media.playing) {
     hls.media.play()
+    video_player.value.currentTime(video_state.value.duration - 1)
   }
 }
 
@@ -72,6 +72,10 @@ function stop() {
 }
 onMounted(() => {
   create_hls()
+})
+
+onUnmounted(() => {
+  destroy_hls()
 })
 </script>
 

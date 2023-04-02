@@ -8,9 +8,21 @@
       </v-col>
 
       <v-col cols='4'>
-        <div>Текущий фпс FPS: {{ store.getters.getVideo.fps}}</div>
+        <div>Максимальный FPS: <b>{{video.fps.max}}</b></div>
+        <div>Целевой FPS: <b>{{video.fps.target}}</b></div>
+        <div>Текущий FPS: <b>{{video.fps.current}}</b></div>
 
-        <v-btn @click='get_fps'>Get fps</v-btn>
+        <div>
+          <v-text-field v-model.number='current_fps' type='number' label='FPS' />
+        </div>
+
+        <div>
+          <v-text-field v-model.number='skip' type='number' label='Пропуск кадров' />
+        </div>
+
+        <div>
+          <v-switch v-model='enable_nn' label='Нейросеть включена' />
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -19,19 +31,53 @@
 <script lang='ts' setup>
 import LiveStreamVideoComponent from '@/components/liveStreamVideoComponent.vue'
 import store from '@/store'
-import { onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
+
+store.dispatch('api_get_skip')
+store.dispatch('api_get_enable_nn')
 
 let timeout
+
+const current_fps = computed({
+  get() {
+    return store.getters.getVideo.fps.target
+  },
+  set(val:number) {
+    store.dispatch('api_set_fps', val)
+  }
+})
+
+const video = computed(() => store.getters.getVideo)
+
+const skip = computed({
+  get() {
+    return store.getters.getNN.skip
+  },
+  set(val:number) {
+    store.state.nn.skip = val
+    store.dispatch('api_set_skip', val)
+  }
+})
+
+const enable_nn = computed({
+  get() {
+    return store.getters.getNN.enable
+  },
+  set(val: boolean) {
+    store.state.nn.enable = val
+    store.dispatch('api_set_enable_nn', val)
+  }
+})
 
 function get_fps() {
   store.dispatch('api_get_fps')
 }
 
 onMounted(() => {
-  //timeout = setInterval(get_fps, 5000)
+  timeout = setInterval(get_fps, 1000)
 })
 
 onUnmounted(() => {
-  //clearInterval(timeout)
+  clearInterval(timeout)
 })
 </script>

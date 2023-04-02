@@ -15,7 +15,7 @@ export const BASE =
 export const STREAM_BASE =
   process.env.NODE_ENV !== "production"
     ? "http://" + debug_ip + stream_port
-    : "http://" + window.location.host;
+    : "http://" + window.location.hostname + stream_port;
 
 const instance = axios.create({
   baseURL: BASE,
