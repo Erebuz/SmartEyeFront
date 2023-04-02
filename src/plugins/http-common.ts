@@ -2,12 +2,19 @@ import axios, { AxiosHeaders, AxiosStatic } from "axios";
 import { App } from "vue";
 import VueAxios from "vue-axios";
 
-const debug_ip = "10.0.117.82";
-const port = ":8080/";
+const debug_ip = "localhost";
+const port = ":8080";
+const stream_port = ":8888";
+
 
 export const BASE =
   process.env.NODE_ENV !== "production"
     ? "http://" + debug_ip + port
+    : "http://" + window.location.host;
+
+export const STREAM_BASE =
+  process.env.NODE_ENV !== "production"
+    ? "http://" + debug_ip + stream_port
     : "http://" + window.location.host;
 
 const instance = axios.create({
