@@ -2,9 +2,12 @@ import { createStore } from 'vuex'
 import { ComponentInternalInstance } from 'vue'
 import VideoService from '@/service/videoService'
 import NnService from '@/service/nnService'
+import UserService from '@/service/UserService'
+import { th } from 'vuetify/locale'
 
 const videoService = new VideoService()
 const nnService = new NnService()
+const userService = new UserService()
 
 export default createStore<{
   currentInstance: ComponentInternalInstance | null
@@ -15,6 +18,7 @@ export default createStore<{
   },
   nn: {
     enable: boolean
+    classes: Record<string, string>
     skip: number
   }
 }>({
@@ -29,7 +33,8 @@ export default createStore<{
       },
     nn: {
       enable: false,
-      skip: 0
+      skip: 0,
+      classes: {}
     }
   },
   getters: {
@@ -37,7 +42,16 @@ export default createStore<{
     getVideo: (state) => state.video,
     getNN: (state) => state.nn
   },
-  mutations: {},
+  mutations: {
+    SOCKET_ONOPEN: () => {
+      return
+    },
+    SOCKET_ONCLOSE: () => { return},
+    SOCKET_ONERROR: () => { return},
+    SOCKET_ONMESSAGE: () => { return},
+    SOCKET_RECONNECT: () => { return},
+    SOCKET_RECONNECT_ERROR: () => { return},
+  },
   actions: {
     set_instance(state, payload: ComponentInternalInstance) {
       this.state.currentInstance = payload
@@ -56,16 +70,28 @@ export default createStore<{
       })
     },
     api_set_skip(state, val: number) {
-      return nnService.set_frame_skip(val)
+      return nnService.set_frame_skip(val).then(() => {
+        this.dispatch('api_get_skip')
+      })
     },
     api_get_enable_nn() {
       return nnService.get_nn_enable().then(res => {
-        this.state.nn.enable = res.data
+        this.state.nn.enable = res.data.show_osd
+        this.state.nn.classes = res.data.classes
       })
     },
     api_set_enable_nn(state, val: boolean) {
       return nnService.set_nn_enable(val)
     },
+    api_set_classes(state, val: Record<string, string>) {
+      return nnService.set_nn_classes(val)
+    },
+    api_update_me(state, payload: {password?: string, username: string}) {
+      return userService.update_me(payload)
+    },
+    update(state, wsEvent: { data: { fps : any}}) {
+      state.state.video.fps = wsEvent.data.fps
+    }
   },
   modules: {},
 })

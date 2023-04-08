@@ -13,6 +13,10 @@ export default class NnService extends AbstractApiService {
     return this.update('', {enable: val})
   }
 
+  set_nn_classes(val: Record<string, string>) {
+    return this.update('', {classes: val})
+  }
+
   get_frame_skip() {
     return this.get('skip')
   }

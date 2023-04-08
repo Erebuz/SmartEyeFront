@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/LoginView.vue'
 import GeneralView from '@/views/GeneralView.vue'
 import { App } from 'vue'
+import UserView from '@/views/UserView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -16,6 +17,15 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'general',
     component: GeneralView,
+    meta: {
+      auth: true,
+      layout: 'default'
+    },
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: UserView,
     meta: {
       auth: true,
       layout: 'default'

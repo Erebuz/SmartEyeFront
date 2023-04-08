@@ -4,9 +4,9 @@
       <v-container>
         <v-row class='justify-space-between align-center'>
           <v-col cols='1'>
-            <div class='user'>
-              {{ store.getters.getAuth.user().username.toUpperCase() }}
-            </div>
+            <router-link :to='{name: "user"}' class='user'>
+                {{ store.getters.getAuth.user().username.toUpperCase() }}
+            </router-link>
           </v-col>
 
           <v-col cols='9'>
@@ -41,5 +41,7 @@ function logout() {
     border: 2px solid black;
     border-radius: 10px;
     font-weight: bold;
+    text-decoration: none;
+    color: black;
 }
 </style>
