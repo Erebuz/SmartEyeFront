@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     component: GeneralView,
     meta: {
       auth: true,
-      layout: 'default'
+      layout: 'default',
     },
   },
   {
@@ -28,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
     component: UserView,
     meta: {
       auth: true,
-      layout: 'default'
+      layout: 'default',
     },
   },
 ]

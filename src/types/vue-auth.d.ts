@@ -1,7 +1,7 @@
-import auth from "@/plugins/auth";
+import auth from '@/plugins/auth'
 
-declare module "@vue/runtime-core" {
+declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
-    $auth: typeof auth;
+    $auth: typeof auth
   }
 }

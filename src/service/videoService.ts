@@ -10,6 +10,6 @@ export default class VideoService extends AbstractApiService {
   }
 
   set_fps(val: number) {
-    return this.update('fps', {target: val})
+    return this.update('fps', { target: val })
   }
 }

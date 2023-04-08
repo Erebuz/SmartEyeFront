@@ -8,19 +8,19 @@
             placeholder="Введите логин"
             label="Логин"
             :rules="[req]"
-            variant='outlined'
+            variant="outlined"
           />
           <v-text-field
             v-model="password"
             placeholder="Введите пароль"
             label="Пароль"
             :rules="[req]"
-            variant='outlined'
-            :type='show_password ? "text" : "password"'
-            :append-inner-icon='show_password ? "mdi-eye" : "mdi-eye-off"'
-            @click:append-inner='show_password = !show_password'
+            variant="outlined"
+            :type="show_password ? 'text' : 'password'"
+            :append-inner-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append-inner="show_password = !show_password"
           />
-          <v-btn type="submit" block variant='outlined'>Вход</v-btn>
+          <v-btn type="submit" block variant="outlined">Вход</v-btn>
         </v-form>
       </v-col>
     </v-row>

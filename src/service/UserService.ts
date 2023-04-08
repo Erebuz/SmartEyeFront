@@ -5,7 +5,7 @@ export default class UserService extends AbstractApiService {
     super('/api/users')
   }
 
-  update_me(payload: {password?: string, username: string}) {
-    return  this.update('', payload)
+  update_me(payload: { password?: string; username: string }) {
+    return this.update('', payload)
   }
 }

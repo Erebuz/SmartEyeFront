@@ -10,11 +10,11 @@ export default class NnService extends AbstractApiService {
   }
 
   set_nn_enable(val: boolean) {
-    return this.update('', {enable: val})
+    return this.update('', { enable: val })
   }
 
   set_nn_classes(val: Record<string, string>) {
-    return this.update('', {classes: val})
+    return this.update('', { classes: val })
   }
 
   get_frame_skip() {
@@ -22,6 +22,6 @@ export default class NnService extends AbstractApiService {
   }
 
   set_frame_skip(val: number) {
-    return this.update('skip', {skip: val})
+    return this.update('skip', { skip: val })
   }
 }

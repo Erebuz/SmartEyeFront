@@ -1,10 +1,6 @@
 <template>
   <div class="live-video">
-    <video-player
-      :options="videoOptions"
-      @mounted="set_video"
-      @click="play"
-    />
+    <video-player :options="videoOptions" @mounted="set_video" @click="play" />
   </div>
 </template>
 
@@ -15,7 +11,6 @@ import 'video.js/dist/video-js.css'
 import { onMounted, onUnmounted, reactive, Ref, ref } from 'vue'
 import Hls, { HlsConfig } from 'hls.js'
 import { STREAM_BASE } from '@/plugins/http-common'
-
 
 const videoOptions: VideoJsPlayerOptions = reactive({
   fluid: true,
@@ -30,7 +25,7 @@ const hls_options: Partial<HlsConfig> = {}
 
 function create_hls() {
   hls = new Hls(hls_options)
-  hls.loadSource(STREAM_BASE + "/video/stream.m3u8")
+  hls.loadSource(STREAM_BASE + '/video/stream.m3u8')
   hls.attachMedia(video.value)
 }
 
@@ -53,7 +48,6 @@ function set_video(ev: {
   video.value = ev.video
   video_state.value = ev.state
 }
-
 
 function play() {
   create_hls()
@@ -81,17 +75,17 @@ onUnmounted(() => {
 
 <style>
 .live-video {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  & .video-js {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    position: relative;
-
-    & .video-js {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+    object-fit: cover;
+  }
 }
 </style>

@@ -13,9 +13,11 @@ export default createStore<{
   currentInstance: ComponentInternalInstance | null
   video: {
     fps: {
-      current: number, max: number, target: number
+      current: number
+      max: number
+      target: number
     }
-  },
+  }
   nn: {
     enable: boolean
     classes: Record<string, string>
@@ -28,29 +30,39 @@ export default createStore<{
       fps: {
         current: 0,
         max: 0,
-        target: 0
-      }
+        target: 0,
       },
+    },
     nn: {
       enable: false,
       skip: 0,
-      classes: {}
-    }
+      classes: {},
+    },
   },
   getters: {
     getAuth: (state) => state.currentInstance!.proxy!.$auth,
     getVideo: (state) => state.video,
-    getNN: (state) => state.nn
+    getNN: (state) => state.nn,
   },
   mutations: {
     SOCKET_ONOPEN: () => {
       return
     },
-    SOCKET_ONCLOSE: () => { return},
-    SOCKET_ONERROR: () => { return},
-    SOCKET_ONMESSAGE: () => { return},
-    SOCKET_RECONNECT: () => { return},
-    SOCKET_RECONNECT_ERROR: () => { return},
+    SOCKET_ONCLOSE: () => {
+      return
+    },
+    SOCKET_ONERROR: () => {
+      return
+    },
+    SOCKET_ONMESSAGE: () => {
+      return
+    },
+    SOCKET_RECONNECT: () => {
+      return
+    },
+    SOCKET_RECONNECT_ERROR: () => {
+      return
+    },
   },
   actions: {
     set_instance(state, payload: ComponentInternalInstance) {
@@ -65,7 +77,7 @@ export default createStore<{
       return videoService.set_fps(fps)
     },
     api_get_skip() {
-      return nnService.get_frame_skip().then(res => {
+      return nnService.get_frame_skip().then((res) => {
         this.state.nn.skip = res.data
       })
     },
@@ -75,7 +87,7 @@ export default createStore<{
       })
     },
     api_get_enable_nn() {
-      return nnService.get_nn_enable().then(res => {
+      return nnService.get_nn_enable().then((res) => {
         this.state.nn.enable = res.data.show_osd
         this.state.nn.classes = res.data.classes
       })
@@ -86,12 +98,12 @@ export default createStore<{
     api_set_classes(state, val: Record<string, string>) {
       return nnService.set_nn_classes(val)
     },
-    api_update_me(state, payload: {password?: string, username: string}) {
+    api_update_me(state, payload: { password?: string; username: string }) {
       return userService.update_me(payload)
     },
-    update(state, wsEvent: { data: { fps : any}}) {
+    update(state, wsEvent: { data: { fps: any } }) {
       state.state.video.fps = wsEvent.data.fps
-    }
+    },
   },
   modules: {},
 })

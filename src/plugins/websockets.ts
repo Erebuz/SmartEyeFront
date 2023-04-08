@@ -3,7 +3,7 @@ import VueNativeSock from 'vue-native-websocket-vue3'
 import { App } from 'vue'
 import store from '@/store'
 
-export const ws_url = 'ws://' + new URL(BASE).host + '/websocket';
+export const ws_url = 'ws://' + new URL(BASE).host + '/websocket'
 
 const ws_options = {
   format: 'json',
