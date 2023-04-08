@@ -7,14 +7,16 @@
             v-model="username"
             placeholder="Введите логин"
             label="Логин"
-            :rules="[req]"
+            :rules="[requirement, max60]"
+            density="compact"
             variant="outlined"
           />
           <v-text-field
             v-model="password"
             placeholder="Введите пароль"
             label="Пароль"
-            :rules="[req]"
+            :rules="[requirement, max60]"
+            density="compact"
             variant="outlined"
             :type="show_password ? 'text' : 'password'"
             :append-inner-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
@@ -30,6 +32,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import store from '@/store'
+import { max60, requirement } from '@/utils/rules'
 
 const username = ref('')
 const password = ref('')
@@ -40,8 +43,6 @@ function log_in() {
     data: { username: username.value, password: password.value },
   })
 }
-
-const req = (val: string) => val.length > 0 || 'Обязательное поле'
 </script>
 
 <style></style>

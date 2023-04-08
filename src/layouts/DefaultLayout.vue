@@ -9,8 +9,12 @@
             </router-link>
           </v-col>
 
-          <v-col cols="9">
+          <v-col cols="2">
             <h2>Smart Eye</h2>
+          </v-col>
+
+          <v-col cols="7">
+            <h3 class="text-red">{{ store.getters.active_classes }}</h3>
           </v-col>
 
           <v-col cols="2">

@@ -9,6 +9,7 @@
             hide-details
             density="compact"
             variant="outlined"
+            :rules="[requirement, max60]"
           />
         </v-col>
 
@@ -19,6 +20,10 @@
             hide-details
             density="compact"
             variant="outlined"
+            :rules="[max60, confirmRule]"
+            :type="show_password ? 'text' : 'password'"
+            :append-inner-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append-inner="show_password = !show_password"
           />
         </v-col>
 
@@ -29,6 +34,10 @@
             hide-details
             density="compact"
             variant="outlined"
+            :rules="[max60, confirmRule]"
+            :type="show_password ? 'text' : 'password'"
+            :append-inner-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append-inner="show_password = !show_password"
           />
         </v-col>
 
@@ -51,18 +60,27 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import store from '@/store'
+import { max60, requirement } from '@/utils/rules'
 
 const username = ref(store.getters.getAuth.user().username)
 
 const password = ref('')
 const confirm = ref('')
+const show_password = ref(false)
 
 function save() {
+  if (password.value !== confirm.value) return
+
+  if (password.value === '' && (username.value === store.getters.getAuth.user().username)) return
+
   store.dispatch('api_update_me', {
     password: password.value,
     username: username.value,
   })
 }
+
+const confirmRule = () =>
+  password.value === confirm.value || 'Пароли не совпадают'
 </script>
 
 <style scoped>

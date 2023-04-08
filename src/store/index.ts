@@ -3,26 +3,27 @@ import { ComponentInternalInstance } from 'vue'
 import VideoService from '@/service/videoService'
 import NnService from '@/service/nnService'
 import UserService from '@/service/UserService'
-import { th } from 'vuetify/locale'
 
 const videoService = new VideoService()
 const nnService = new NnService()
 const userService = new UserService()
 
+type fpsType = {
+  current: number
+  max: number
+  target: number
+}
 export default createStore<{
   currentInstance: ComponentInternalInstance | null
   video: {
-    fps: {
-      current: number
-      max: number
-      target: number
-    }
+    fps: fpsType
   }
   nn: {
     enable: boolean
     classes: Record<string, string>
     skip: number
   }
+  active_classes: Record<string, number>
 }>({
   state: {
     currentInstance: null,
@@ -38,11 +39,13 @@ export default createStore<{
       skip: 0,
       classes: {},
     },
+    active_classes: {},
   },
   getters: {
     getAuth: (state) => state.currentInstance!.proxy!.$auth,
     getVideo: (state) => state.video,
     getNN: (state) => state.nn,
+    active_classes: (state) => state.active_classes
   },
   mutations: {
     SOCKET_ONOPEN: () => {
@@ -101,9 +104,12 @@ export default createStore<{
     api_update_me(state, payload: { password?: string; username: string }) {
       return userService.update_me(payload)
     },
-    update(state, wsEvent: { data: { fps: any } }) {
-      state.state.video.fps = wsEvent.data.fps
+    update(
+      state,
+      wsEvent: { data: { fps: fpsType; classes: Record<string, number> } }
+    ) {
+      this.state.video.fps = wsEvent.data.fps
+      this.state.active_classes = wsEvent.data.classes
     },
   },
-  modules: {},
 })

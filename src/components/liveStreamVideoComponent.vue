@@ -1,6 +1,11 @@
 <template>
   <div class="live-video">
-    <video-player :options="videoOptions" @mounted="set_video" @click="play" />
+    <video-player
+      :options="videoOptions"
+      @mounted="set_video"
+      @timeupdate="time_watch"
+      @click="play"
+    />
   </div>
 </template>
 
@@ -64,12 +69,87 @@ function stop() {
     destroy_hls()
   }
 }
+
+function rewind() {
+  if (document.hidden) return
+
+  if (process.env.NODE_ENV !== 'production') {
+    console.debug('Reload video stream')
+  }
+
+  if (video_state.value.duration) {
+    video_player.value.currentTime(video_state.value.duration - min_delay)
+  } else {
+    video_player.value.currentTime(0)
+  }
+}
+
+function delay_rewind() {
+  if (process.env.NODE_ENV !== 'production') {
+    console.debug('Auto max delay:', delay)
+  }
+
+  rewind()
+
+  delay_count = 0
+  delay_bad_count = 0
+  delay_good_count = 0
+}
+
+const delay_max_count = 30
+let delay = 0.5
+const min_delay = 0.5
+let delay_count = 0
+let delay_bad_count = 0
+let delay_good_count = 0
+
+function time_watch() {
+  const time_shift = video_state.value.duration - video_state.value.currentTime
+
+  delay_count += 1
+
+  if (time_shift > delay) {
+    delay_bad_count += 1
+  } else {
+    delay_good_count += 1
+  }
+
+  if (delay_count < delay_max_count) return
+
+  if (delay_bad_count > delay_max_count * 0.35) {
+    delay += 0.25
+    delay_rewind()
+    return
+  }
+
+  if (delay_good_count > delay_max_count * 0.95 && delay > min_delay) {
+    delay -= 0.25
+    delay_rewind()
+    return
+  }
+
+  if (delay_count > delay_max_count) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.debug('Auto max delay:', delay)
+    }
+
+    delay_count = 0
+    delay_bad_count = 0
+    delay_good_count = 0
+    return
+  }
+}
+
 onMounted(() => {
   create_hls()
+
+  window.addEventListener('visibilitychange', rewind)
 })
 
 onUnmounted(() => {
   destroy_hls()
+
+  window.removeEventListener('visibilitychange', rewind)
 })
 </script>
 
