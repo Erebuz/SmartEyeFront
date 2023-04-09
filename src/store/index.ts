@@ -42,7 +42,7 @@ export default createStore<{
       skip: 0,
       classes: {},
       activity_log: [],
-      activity_log_data: new Date()
+      activity_log_data: new Date(),
     },
     active_classes: {},
   },
@@ -109,7 +109,9 @@ export default createStore<{
     api_get_activity_log() {
       return nnService.get_activity_log().then((res) => {
         this.state.nn.activity_log = res.data
-        this.state.nn.activity_log_data = new Date()
+        this.state.nn.activity_log_data = new Date(
+          new Date().getTime() - res.data.length * 0.2 * 1000
+        )
       })
     },
     api_update_me(state, payload: { password?: string; username: string }) {
@@ -129,9 +131,11 @@ export default createStore<{
       }
 
       this.state.nn.activity_log.push(result)
-      if(this.state.nn.activity_log.length > 1500) {
+      if (this.state.nn.activity_log.length > 1500) {
         this.state.nn.activity_log.shift()
-        this.state.nn.activity_log_data = new Date()
+        this.state.nn.activity_log_data = new Date(
+          new Date().getTime() - 1500 * 0.2 * 1000
+        )
       }
     },
   },
