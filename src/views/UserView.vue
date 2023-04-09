@@ -6,7 +6,6 @@
           <v-text-field
             v-model="username"
             label="Имя пользователя"
-            hide-details
             density="compact"
             variant="outlined"
             :rules="[requirement, max60]"
@@ -17,7 +16,6 @@
           <v-text-field
             v-model.number="password"
             label="Новый пароль"
-            hide-details
             density="compact"
             variant="outlined"
             :rules="[max60, confirmRule]"
@@ -31,7 +29,6 @@
           <v-text-field
             v-model.number="confirm"
             label="Подтверждение пароля"
-            hide-details
             density="compact"
             variant="outlined"
             :rules="[max60, confirmRule]"

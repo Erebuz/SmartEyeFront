@@ -1,4 +1,5 @@
 import AbstractApiService from '@/service/AbstractApiService'
+import { th } from 'vuetify/locale'
 
 export default class NnService extends AbstractApiService {
   constructor() {
@@ -23,5 +24,9 @@ export default class NnService extends AbstractApiService {
 
   set_frame_skip(val: number) {
     return this.update('skip', { skip: val })
+  }
+
+  get_activity_log() {
+    return this.get('log')
   }
 }

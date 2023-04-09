@@ -3,6 +3,7 @@ import { ComponentInternalInstance } from 'vue'
 import VideoService from '@/service/videoService'
 import NnService from '@/service/nnService'
 import UserService from '@/service/UserService'
+import { th } from 'vuetify/locale'
 
 const videoService = new VideoService()
 const nnService = new NnService()
@@ -22,6 +23,8 @@ export default createStore<{
     enable: boolean
     classes: Record<string, string>
     skip: number
+    activity_log: number[]
+    activity_log_data: Date
   }
   active_classes: Record<string, number>
 }>({
@@ -38,6 +41,8 @@ export default createStore<{
       enable: false,
       skip: 0,
       classes: {},
+      activity_log: [],
+      activity_log_data: new Date()
     },
     active_classes: {},
   },
@@ -45,7 +50,7 @@ export default createStore<{
     getAuth: (state) => state.currentInstance!.proxy!.$auth,
     getVideo: (state) => state.video,
     getNN: (state) => state.nn,
-    active_classes: (state) => state.active_classes
+    active_classes: (state) => state.active_classes,
   },
   mutations: {
     SOCKET_ONOPEN: () => {
@@ -101,6 +106,12 @@ export default createStore<{
     api_set_classes(state, val: Record<string, string>) {
       return nnService.set_nn_classes(val)
     },
+    api_get_activity_log() {
+      return nnService.get_activity_log().then((res) => {
+        this.state.nn.activity_log = res.data
+        this.state.nn.activity_log_data = new Date()
+      })
+    },
     api_update_me(state, payload: { password?: string; username: string }) {
       return userService.update_me(payload)
     },
@@ -110,6 +121,18 @@ export default createStore<{
     ) {
       this.state.video.fps = wsEvent.data.fps
       this.state.active_classes = wsEvent.data.classes
+
+      let result = 0
+
+      for (const key in wsEvent.data.classes) {
+        result += wsEvent.data.classes[key]
+      }
+
+      this.state.nn.activity_log.push(result)
+      if(this.state.nn.activity_log.length > 1500) {
+        this.state.nn.activity_log.shift()
+        this.state.nn.activity_log_data = new Date()
+      }
     },
   },
 })

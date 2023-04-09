@@ -99,6 +99,12 @@
             />
           </div>
         </v-row>
+
+        <v-row>
+          <v-btn block @click="router.push({ name: 'chart' })"
+            >График активности</v-btn
+          >
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -108,6 +114,7 @@
 import LiveStreamVideoComponent from '@/components/liveStreamVideoComponent.vue'
 import store from '@/store'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import router from '@/router'
 
 store.dispatch('api_get_enable_nn')
 

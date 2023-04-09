@@ -9,12 +9,12 @@
             </router-link>
           </v-col>
 
-          <v-col cols="2">
+          <v-col cols="4">
             <h2>Smart Eye</h2>
           </v-col>
 
-          <v-col cols="7">
-            <h3 class="text-red">{{ store.getters.active_classes }}</h3>
+          <v-col cols="5">
+            <h3 v-if='active_classes > 0' class="text-red">Отслеживаемых объектов: {{ active_classes }}</h3>
           </v-col>
 
           <v-col cols="2">
@@ -34,10 +34,21 @@
 
 <script lang="ts" setup>
 import store from '@/store'
+import { computed } from 'vue'
 
 function logout() {
   store.getters.getAuth.logout({})
 }
+
+const active_classes = computed(() => {
+  let result = 0
+
+  for (const key in store.getters.active_classes) {
+    result += store.getters.active_classes[key]
+  }
+
+  return result
+})
 </script>
 
 <style scoped>

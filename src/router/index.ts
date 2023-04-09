@@ -3,6 +3,7 @@ import HomeView from '../views/LoginView.vue'
 import GeneralView from '@/views/GeneralView.vue'
 import { App } from 'vue'
 import UserView from '@/views/UserView.vue'
+import ChartView from '@/views/ChartView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -26,6 +27,15 @@ const routes: Array<RouteRecordRaw> = [
     path: '/user',
     name: 'user',
     component: UserView,
+    meta: {
+      auth: true,
+      layout: 'default',
+    },
+  },
+  {
+    path: '/chart',
+    name: 'chart',
+    component: ChartView,
     meta: {
       auth: true,
       layout: 'default',
