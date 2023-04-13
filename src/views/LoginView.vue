@@ -18,6 +18,7 @@
             :rules="[requirement, max60]"
             density="compact"
             variant="outlined"
+            class="my-2"
             :type="show_password ? 'text' : 'password'"
             :append-inner-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append-inner="show_password = !show_password"

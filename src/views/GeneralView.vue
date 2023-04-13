@@ -74,37 +74,39 @@
         <h3 class="mt-8 mb-2">Настройки нейросети</h3>
 
         <v-row>
-          <v-col cols="6" class="d-flex align-center">
+          <v-col cols="12" class="d-flex align-center">
             <v-switch
               v-model="enable_nn"
-              label="Нейросеть включена"
+              :label="enable_nn ? 'Нейросеть включена' : 'Нейросеть отключена'"
               hide-details
             />
           </v-col>
         </v-row>
 
-        <h4 class="my-4">Различаемые объекты</h4>
+        <template v-if="enable_nn">
+          <h4 class="my-4">Различаемые объекты</h4>
 
-        <v-row>
-          <div
-            v-for="class_name in Object.keys(store.getters.getNN.classes)"
-            :key="class_name"
-            style="width: 33%"
-          >
-            <v-checkbox
-              v-model="store.getters.getNN.classes[class_name]"
-              :label="class_name[0].toUpperCase() + class_name.slice(1)"
-              density="compact"
-              @change="set_classes"
-            />
-          </div>
-        </v-row>
+          <v-row>
+            <div
+              v-for="class_name in Object.keys(store.getters.getNN.classes)"
+              :key="class_name"
+              style="width: 33%"
+            >
+              <v-checkbox
+                v-model="store.getters.getNN.classes[class_name]"
+                :label="class_name[0].toUpperCase() + class_name.slice(1)"
+                density="compact"
+                @change="set_classes"
+              />
+            </div>
+          </v-row>
 
-        <v-row>
-          <v-btn block @click="router.push({ name: 'chart' })"
-            >График активности</v-btn
-          >
-        </v-row>
+          <v-row>
+            <v-btn block @click="router.push({ name: 'chart' })"
+              >График активности</v-btn
+            >
+          </v-row>
+        </template>
       </v-col>
     </v-row>
   </v-container>

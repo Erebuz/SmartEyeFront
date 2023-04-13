@@ -13,7 +13,6 @@ import Highcharts from 'highcharts'
 import stockInit from 'highcharts/modules/stock'
 import { computed, ComputedRef, ref } from 'vue'
 import store from '@/store'
-import { th } from 'vuetify/locale'
 
 stockInit(Highcharts)
 
@@ -92,6 +91,7 @@ const chartOptions: ComputedRef<Highcharts.Options> = computed(() => {
     yAxis: {
       labels: {},
       minTickInterval: 1,
+      max: 10,
       opposite: false,
     },
     tooltip: {

@@ -1,5 +1,4 @@
 import AbstractApiService from '@/service/AbstractApiService'
-import { th } from 'vuetify/locale'
 
 export default class NnService extends AbstractApiService {
   constructor() {

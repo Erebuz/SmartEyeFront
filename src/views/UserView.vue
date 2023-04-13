@@ -68,7 +68,11 @@ const show_password = ref(false)
 function save() {
   if (password.value !== confirm.value) return
 
-  if (password.value === '' && (username.value === store.getters.getAuth.user().username)) return
+  if (
+    password.value === '' &&
+    username.value === store.getters.getAuth.user().username
+  )
+    return
 
   store.dispatch('api_update_me', {
     password: password.value,

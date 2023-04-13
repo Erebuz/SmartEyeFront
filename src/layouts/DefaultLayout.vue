@@ -5,7 +5,7 @@
         <v-row class="justify-space-between align-center">
           <v-col cols="1">
             <router-link :to="{ name: 'user' }" class="user">
-              {{ store.getters.getAuth.user().username.toUpperCase() }}
+              {{ store.getters.getAuth.user()?.username.toUpperCase() }}
             </router-link>
           </v-col>
 
@@ -14,7 +14,9 @@
           </v-col>
 
           <v-col cols="5">
-            <h3 v-if='active_classes > 0' class="text-red">Отслеживаемых объектов: {{ active_classes }}</h3>
+            <h3 v-if="active_classes > 0" class="text-red">
+              Отслеживаемых объектов: {{ active_classes }}
+            </h3>
           </v-col>
 
           <v-col cols="2">

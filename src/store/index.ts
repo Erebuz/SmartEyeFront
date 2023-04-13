@@ -3,7 +3,6 @@ import { ComponentInternalInstance } from 'vue'
 import VideoService from '@/service/videoService'
 import NnService from '@/service/nnService'
 import UserService from '@/service/UserService'
-import { th } from 'vuetify/locale'
 
 const videoService = new VideoService()
 const nnService = new NnService()
